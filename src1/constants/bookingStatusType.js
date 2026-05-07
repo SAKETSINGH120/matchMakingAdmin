@@ -1,0 +1,1 @@
+export const bookingStatusType = Object.freeze({CANCELLED : "cancelled", SCHEDULED : "scheduled"})

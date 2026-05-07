@@ -1,0 +1,77 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap");
+
+@keyframes logo-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  10% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  30% {
+    transform: translateY(30px);
+    animation-timing-function: cubic-bezier(0.2, 0, 0.8, 1);
+  }
+  50% {
+    transform: translateY(-15px);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  70% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+}
+
+.logo-bounce {
+  animation: logo-bounce 2s infinite;
+}
+/* Override Ant Design spinner dot color */
+.ant-spin-dot-item {
+  background-color: black !important;
+  border-radius: 50% !important;
+}
+
+.dark .ant-spin-dot-item {
+  background-color: #ffffff !important;
+}
+
+.loader-content {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 70px;
+}
+
+.dark .loader-content {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Add to App.css or index.css */
+
+.animate-pulse-slow {
+  animation: pulse 12s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.delay-1000 {
+  animation-delay: 4s;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+}
