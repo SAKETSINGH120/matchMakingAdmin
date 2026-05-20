@@ -316,7 +316,7 @@ export const sendCredentialsMail = async ({ userId, userIds = [] }) => {
   return result;
 };
 
-export const createUser = async ({ number, name, email }) => {
+export const createUser = async ({ number, name, email, gender }) => {
   const token = localStorage.getItem("token");
 
   const res = await fetch(`${BASE_URL}/api/v1/admin/user/create`, {
@@ -325,7 +325,7 @@ export const createUser = async ({ number, name, email }) => {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ number, name, email }),
+    body: JSON.stringify({ number, name, email, gender }),
   });
 
   const result = await res.json();

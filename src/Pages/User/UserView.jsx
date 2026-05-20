@@ -1042,6 +1042,7 @@ function EditableRow({
   onChange,
   type = "text",
   options = [],
+  isDateField = false,
 }) {
   if (!editable) {
     return (
@@ -1050,7 +1051,20 @@ function EditableRow({
           {label}
         </span>
         <span className="font-medium text-theme-light-textPrimary dark:text-theme-dark-textPrimary">
-          {value || "—"}
+          {type === "date" && value
+            ? (function () {
+                try {
+                  return new Date(value).toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                    timeZone: "UTC",
+                  });
+                } catch (e) {
+                  return value;
+                }
+              })()
+            : value || "—"}
         </span>
       </div>
     );
@@ -1079,6 +1093,30 @@ function EditableRow({
   }
 
   if (type === "date") {
+    const formatDisplayDate = (dateStr) => {
+      if (!dateStr) return "—";
+      const date = new Date(dateStr);
+      return date.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        timeZone: "UTC",
+      });
+    };
+
+    if (!editable) {
+      return (
+        <div className="flex justify-between border-b border-theme-light-border pb-1 dark:border-theme-dark-border">
+          <span className="text-theme-light-textSecondary dark:text-theme-dark-textSecondary">
+            {label}
+          </span>
+          <span className="font-medium text-theme-light-textPrimary dark:text-theme-dark-textPrimary">
+            {formatDisplayDate(value)}
+          </span>
+        </div>
+      );
+    }
+
     return (
       <div className="flex justify-between items-center border-b border-theme-light-border pb-2 dark:border-theme-dark-border">
         <span className="text-theme-light-textSecondary dark:text-theme-dark-textSecondary">
@@ -1102,7 +1140,17 @@ function EditableRow({
       <input
         type={type}
         value={value || ""}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => {
+          // For number type, only allow numeric input
+          if (
+            type === "number" &&
+            e.target.value !== "" &&
+            !/^\d+$/.test(e.target.value)
+          ) {
+            return;
+          }
+          onChange(e.target.value);
+        }}
         className="theme-input max-w-[150px] text-sm"
         placeholder="—"
       />
@@ -1126,17 +1174,17 @@ function EditableToggle({ label, value, editable, onChange }) {
 
   return (
     <div className="flex justify-between items-center border-b border-theme-light-border pb-2 dark:border-theme-dark-border">
-      <span className="text-theme-light-textSecondary dark:text-theme-dark-textSecondary">
+      <span className="text-theme-light-textSecondary dark:text-theme-dark-textSecondary font-medium">
         {label}
       </span>
-      <label className="relative inline-flex items-center cursor-pointer">
+      <label className="relative inline-flex items-center cursor-pointer group">
         <input
           type="checkbox"
           checked={value || false}
           onChange={(e) => onChange(e.target.checked)}
           className="sr-only peer"
         />
-        <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+        <div className="w-14 h-7 bg-gray-400 dark:bg-gray-500 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-green-400 dark:peer-focus:ring-green-400 rounded-full peer peer-checked:after:translate-x-7 peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[3px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-green-500 dark:peer-checked:bg-emerald-500"></div>
       </label>
     </div>
   );
@@ -1168,7 +1216,18 @@ function TagList({ items }) {
 
 function formatDateTime(date) {
   if (!date) return "—";
-  return new Date(date).toLocaleString();
+  try {
+    return new Date(date).toLocaleString("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "UTC",
+    });
+  } catch (e) {
+    return String(date);
+  }
 }
 
 function calculateAge(dob) {
@@ -1176,10 +1235,10 @@ function calculateAge(dob) {
   const birthDate = new Date(dob);
   const today = new Date();
 
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const m = today.getMonth() - birthDate.getMonth();
+  let age = today.getUTCFullYear() - birthDate.getUTCFullYear();
+  const m = today.getUTCMonth() - birthDate.getUTCMonth();
 
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
+  if (m < 0 || (m === 0 && today.getUTCDate() < birthDate.getUTCDate())) age--;
 
   return age;
 }

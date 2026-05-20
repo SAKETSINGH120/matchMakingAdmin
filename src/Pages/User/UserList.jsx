@@ -682,6 +682,7 @@ export default function UserList() {
     name: "",
     email: "",
     number: "",
+    gender: "",
   });
   const [createFormErrors, setCreateFormErrors] = useState({});
   const [statusReasonModal, setStatusReasonModal] = useState({
@@ -937,7 +938,7 @@ export default function UserList() {
   };
 
   const resetCreateForm = () => {
-    setCreateForm({ name: "", email: "", number: "" });
+    setCreateForm({ name: "", email: "", number: "", gender: "" });
     setCreateFormErrors({});
     setShowCreateForm(false);
   };
@@ -975,6 +976,7 @@ export default function UserList() {
       name: createForm.name.trim(),
       email: createForm.email.trim(),
       number: createForm.number.trim(),
+      gender: createForm.gender || undefined,
     };
 
     const errors = validateCreateForm(payload);
@@ -1031,7 +1033,6 @@ export default function UserList() {
       { label: "Gender", key: "gender" },
       { label: "Premium", key: "isPremium" },
       { label: "Verified", key: "isVerified" },
-      { label: "Activity Score", key: "activityScore" },
       {
         label: "Status",
         key: "status",
@@ -1324,18 +1325,41 @@ export default function UserList() {
                   </p>
                 )}
               </div>
-              <div className="md:col-span-2">
+              <div>
                 <input
                   type="text"
                   name="number"
                   placeholder="Number"
                   value={createForm.number}
-                  onChange={handleCreateInputChange}
+                  onChange={(e) => {
+                    // Only allow numeric input for phone number
+                    if (e.target.value === "" || /^\d+$/.test(e.target.value)) {
+                      handleCreateInputChange(e);
+                    }
+                  }}
                   className="theme-input"
                 />
                 {createFormErrors.number && (
                   <p className="mt-1 text-xs text-theme-light-danger dark:text-theme-dark-danger">
                     {createFormErrors.number}
+                  </p>
+                )}
+              </div>
+              <div>
+                <select
+                  name="gender"
+                  value={createForm.gender || ""}
+                  onChange={handleCreateInputChange}
+                  className="theme-input"
+                >
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+                {createFormErrors.gender && (
+                  <p className="mt-1 text-xs text-theme-light-danger dark:text-theme-dark-danger">
+                    {createFormErrors.gender}
                   </p>
                 )}
               </div>
