@@ -203,6 +203,40 @@
   overflow-y: auto;
 }
 
+.cms-editor .ck.ck-editor,
+.cms-editor .ck.ck-editor__main,
+.cms-editor .ck.ck-content,
+.cms-editor .ck-editor__editable_inline {
+  color: var(--color-text-primary) !important;
+  background-color: var(--color-bg-secondary) !important;
+}
+
+.cms-editor .ck.ck-content *,
+.cms-editor .ck-editor__editable_inline * {
+  color: inherit !important;
+}
+
+.cms-editor .ck-editor__editable_inline {
+  border-color: var(--color-border) !important;
+}
+
+.dark .cms-editor .ck.ck-editor,
+.dark .cms-editor .ck.ck-editor__main,
+.dark .cms-editor .ck.ck-content,
+.dark .cms-editor .ck-editor__editable_inline {
+  color: var(--color-text-primary) !important;
+  background-color: var(--color-bg-secondary) !important;
+}
+
+.email-template-preview,
+.email-template-preview * {
+  color: inherit;
+}
+
+.email-template-preview * {
+  color: inherit !important;
+}
+
 /* Global dark-mode compatibility for legacy pages using hardcoded light classes */
 .dark .bg-white {
   background-color: var(--color-bg-secondary) !important;

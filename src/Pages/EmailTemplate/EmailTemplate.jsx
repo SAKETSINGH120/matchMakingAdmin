@@ -96,13 +96,15 @@ const EmailTemplate = () => {
           const span = document.createElement("span");
           span.contentEditable = true;
           span.textContent = child.textContent;
-          span.style.color = "#f3f8fa";
-          // span.style.backgroundColor = "rgba(32, 34, 33, 0.45)";
-          // span.style.borderRadius = "4px";
+          span.classList.add("text-gray-900", "dark:text-theme-dark-textPrimary");
+          span.style.backgroundColor = "transparent";
           span.style.padding = "1px 4px";
-          // span.style.outline = "1px solid rgba(100, 12, 12, 0.35)";
-          // span.style.boxShadow = "0 0 0 2px rgba(230, 202, 90, 0.25)";
-          span.style.caretColor = "#ffffff";
+          try {
+            const isDark = typeof document !== "undefined" && document.documentElement.classList.contains("dark");
+            span.style.caretColor = isDark ? "#e5e7eb" : "#111827";
+          } catch (e) {
+            span.style.caretColor = "#111827";
+          }
           span.addEventListener("paste", handleEditablePaste);
           node.replaceChild(span, child);
         } else if (child.nodeType === 1) {
@@ -123,6 +125,33 @@ const EmailTemplate = () => {
       makeTextEditable(editableRef.current);
     }
   }, [loading, template.body, makeTextEditable]);
+
+  // Keep caret color in sync with theme changes (dark <-> light)
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    const updateCaret = () => {
+      if (!editableRef.current) return;
+      const isDark = document.documentElement.classList.contains("dark");
+      const caret = isDark ? "#e5e7eb" : "#111827";
+      editableRef.current.querySelectorAll('span[contenteditable="true"]').forEach((s) => {
+        s.style.caretColor = caret;
+      });
+    };
+
+    const obs = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.attributeName === "class") {
+          updateCaret();
+          break;
+        }
+      }
+    });
+
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    updateCaret();
+    return () => obs.disconnect();
+  }, []);
 
   const handleSave = async (event) => {
     event.preventDefault();
@@ -228,8 +257,9 @@ const EmailTemplate = () => {
                 </label>
                 <div
                   ref={editableRef}
-                  className="rounded-lg border border-theme-light-border bg-white px-3 py-2 text-sm text-theme-light-textPrimary outline-none transition-colors duration-200 dark:border-theme-dark-border dark:bg-theme-dark-inputBg dark:text-theme-dark-textPrimary min-h-[420px] font-mono text-sm leading-6 overflow-auto"
+                  className="rounded-lg border border-theme-light-border bg-white px-3 py-2 text-gray-900 outline-none transition-colors duration-200 dark:border-theme-dark-border dark:bg-theme-dark-inputBg dark:text-theme-dark-textPrimary font-mono leading-6 overflow-auto"
                   style={{
+                    minHeight: "420px",
                     whiteSpace: "pre-wrap",
                     wordWrap: "break-word",
                   }}
@@ -297,7 +327,10 @@ const EmailTemplate = () => {
                 <h2 className="text-sm font-semibold uppercase tracking-wide text-theme-light-heading dark:text-theme-dark-textPrimary">
                   Preview
                 </h2>
-                <div className="mt-4 max-h-[640px] overflow-auto rounded-lg border border-theme-light-border bg-theme-light-surface p-4 dark:border-theme-dark-border dark:bg-theme-dark-inputBg">
+                <div
+                  className="email-template-preview mt-4 overflow-auto rounded-lg border border-theme-light-border bg-theme-light-surface p-4 text-gray-900 dark:border-theme-dark-border dark:bg-theme-dark-inputBg dark:text-theme-dark-textPrimary"
+                  style={{ maxHeight: "640px" }}
+                >
                   <div dangerouslySetInnerHTML={previewMarkup} />
                 </div>
               </div>

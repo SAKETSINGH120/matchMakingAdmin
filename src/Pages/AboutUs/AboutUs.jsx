@@ -4,11 +4,10 @@ import { useEffect } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import toast from "react-hot-toast";
-import Breaker from "../../compoents/Breaker";
-import { updatePrivacyPolicy,getCmsPage } from "../../Services/AboutUsApi";
+import { updatePrivacyPolicy, getCmsPage } from "../../Services/AboutUsApi";
 
 export default function AboutUs() {
-  const [content, setContent] = useState("");  
+  const [content, setContent] = useState("");
   const [saving, setSaving] = useState(false);
 
   // ────────────────────────────────────────────────
@@ -16,31 +15,31 @@ export default function AboutUs() {
   // ────────────────────────────────────────────────
 
   useEffect(() => {
-  document.body.style.overflow = "hidden";
-  const fetchPrivacyPolicy = async () => {
-    try {
-      const result = await getCmsPage("about-us");
+    document.body.style.overflow = "hidden";
+    const fetchPrivacyPolicy = async () => {
+      try {
+        const result = await getCmsPage("about-us");
 
-      console.log("CMS GET RESPONSE:", result);
+        console.log("CMS GET RESPONSE:", result);
 
-      if (result?.success) {
-        // 👇 Yaha important line hai
-        setContent(result.data.content);
-      } else {
-        toast.error(result?.message || "Failed to load data");
+        if (result?.success) {
+          // 👇 Yaha important line hai
+          setContent(result.data.content);
+        } else {
+          toast.error(result?.message || "Failed to load data");
+        }
+      } catch (error) {
+        console.error("Error fetching CMS page:", error);
+        toast.error("Error loading Aboutus");
       }
-    } catch (error) {
-      console.error("Error fetching CMS page:", error);
-      toast.error("Error loading Aboutus");
-    }
-  };
+    };
 
-  fetchPrivacyPolicy();
+    fetchPrivacyPolicy();
 
-  return () => {
-    document.body.style.overflow = "auto";
-  };
-}, []);
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
   const handleUpdate = async () => {
     if (!content.trim()) {
       toast.error("Content cannot be empty");
@@ -66,36 +65,36 @@ export default function AboutUs() {
   };
 
   return (
-    <div className=" w-full bg-gray-100 flex items-center justify-center overflow-hidden">
-
-      <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl p-8">
-
-        <h2 className="text-2xl font-semibold mb-6 text-center">
+    <div className="theme-page min-h-screen w-full px-4 py-6">
+      <div className="mx-auto w-full max-w-4xl rounded-2xl border border-theme-light-border bg-white p-6 shadow-xl transition-colors duration-200 dark:border-theme-dark-border dark:bg-theme-dark-surface sm:p-8">
+        <h2 className="mb-6 text-center text-2xl font-semibold text-theme-light-heading dark:text-theme-dark-textPrimary">
           AboutUs
         </h2>
 
-        <CKEditor
-          editor={ClassicEditor}
-          data={content}
-          config={{
-            placeholder: "Write your AboutUs here...",
-          }}
-          onChange={(event, editor) => {
-            const data = editor.getData();
-            setContent(data);
-          }}
-        />
+        <div className="cms-editor">
+          <CKEditor
+            editor={ClassicEditor}
+            data={content}
+            config={{
+              placeholder: "Write your AboutUs here...",
+            }}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              setContent(data);
+            }}
+          />
+        </div>
 
         <div className="mt-8 flex justify-center">
           <button
             onClick={handleUpdate}
             disabled={saving}
-            className="px-8 py-3 bg-[var(--primary-color)] text-white rounded-lg shadow-lg hover:opacity-90 transition text-lg"
+            className="rounded-lg px-8 py-3 text-lg text-white shadow-lg transition hover:opacity-90"
+            style={{ backgroundColor: "var(--primary-color)" }}
           >
             {saving ? "Updating..." : "Update AboutUs"}
           </button>
         </div>
-
       </div>
     </div>
   );

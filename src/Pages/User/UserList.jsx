@@ -1032,7 +1032,7 @@ export default function UserList() {
       { label: "Number", key: "number" },
       { label: "Gender", key: "gender" },
       { label: "Premium", key: "isPremium" },
-      { label: "Verified", key: "isVerified" },
+      // { label: "Verified", key: "isVerified" },
       {
         label: "Status",
         key: "status",
@@ -1089,6 +1089,13 @@ export default function UserList() {
         key: "actions",
         render: (value, row) => (
           <div className="flex items-center gap-2">
+            {/* <button
+              onClick={() => navigate(`/Home/user/edit/${row.id}`)}
+              title="Edit user profile"
+              className="theme-btn-secondary px-3 py-1 text-xs"
+            >
+              Edit Profile
+            </button> */}
             <button
               onClick={() =>
                 handleSendCredentials({ userId: row.id, userIds: [] })
@@ -1171,6 +1178,9 @@ export default function UserList() {
   };
 
   const handleView = (rowId) => {
+    // Ensure profile-assignment modal is closed before navigating to view page
+    setModalOpen(false);
+    setSelectedUserId(null);
     navigate(`view/${rowId}`);
   };
 
@@ -1423,7 +1433,7 @@ export default function UserList() {
           data={data}
           columns={tableColumns}
           hasAction={true}
-          hasEdit={false}
+          hasEdit={true}
           hasDelete={false}
           hasView={true}
           isLoading={loading}
@@ -1431,6 +1441,7 @@ export default function UserList() {
           limit={rowsPerPage}
           page={page}
           onView={(row) => handleView(row.id)}
+          onEdit={(row) => navigate(`/Home/user/edit/${row.id}`)}
         />
       )}
 

@@ -17,6 +17,7 @@ import UpdateRole from "./Pages/Roles/UpdateRole";
 // User
 import UserList from "./Pages/User/UserList";
 import UserView from "./Pages/User/UserView";
+import UserEdit from "./Pages/User/UserEdit";
 
 // match
 import MatchList from "./Pages/Match/MatchList";
@@ -129,6 +130,7 @@ const router = createBrowserRouter([
       //User
       { path: "user", element: <UserList /> },
       { path: "user/view/:id", element: <UserView /> },
+      { path: "user/edit/:id", element: <UserEdit /> },
 
       // Role routes
       { path: "role", element: <RoleList /> },

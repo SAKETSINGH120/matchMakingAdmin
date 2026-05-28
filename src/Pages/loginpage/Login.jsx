@@ -204,9 +204,9 @@ function Loginpage() {
   };
 
   return (
-    <div className="h-screen w-full  flex items-center justify-center bg-[#3f4f3c] relative overflow-hidden px-4 sm:px-6 lg:px-8 py-8 md:py-0">
-      <div className="absolute -top-20 -left-20 md:-top-40 md:-left-40 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-br from-[#e9eee7] to-[#d8e0d5] opacity-40 rounded-full blur-3xl animate-[pulse_12s_ease-in-out_infinite] z-0" />
-      <div className="absolute -bottom-20 -right-20 md:-bottom-40 md:-right-40 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-tl from-[#e9eee7] to-[#d0dcd0] opacity-30 rounded-full blur-3xl animate-[pulse_15s_ease-in-out_infinite_3s] z-0" />
+    <div className="min-h-screen w-full flex items-center justify-center bg-[#3f4f3c] relative overflow-y-auto overflow-x-hidden px-4 sm:px-6 lg:px-8 py-8 md:py-10">
+      <div className="absolute -top-20 -left-20 md:-top-40 md:-left-40 w-64 h-64 md:w-96 md:h-96 bg-linear-to-br from-[#e9eee7] to-[#d8e0d5] opacity-40 rounded-full blur-3xl animate-[pulse_12s_ease-in-out_infinite] z-0" />
+      <div className="absolute -bottom-20 -right-20 md:-bottom-40 md:-right-40 w-64 h-64 md:w-96 md:h-96 bg-linear-to-tl from-[#e9eee7] to-[#d0dcd0] opacity-30 rounded-full blur-3xl animate-[pulse_15s_ease-in-out_infinite_3s] z-0" />
       {/* Single centered container for both sides */}
       <div
         className="w-full max-w-6xl bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-[#e9eee7] overflow-hidden flex flex-col md:flex-row relative z-10"
@@ -231,7 +231,7 @@ function Loginpage() {
               <img
                 src="/images/MatchLogo.png"
                 alt="Logo"
-                className="h-40 w-40 md:h-48 md:w-48 object-contain rounded-fullborder-4 border-white "
+                className="h-40 w-40 md:h-48 md:w-48 object-contain rounded-full border-4 border-white"
                 data-aos="zoom-in"
                 data-aos-delay="100"
                 data-aos-duration="900"
@@ -248,7 +248,7 @@ function Loginpage() {
                 data-aos-delay="500"
                 data-aos-duration="800"
               >
-                Matchmaking
+                BondTheAgency
               </h2>
             </div>
           </div>
@@ -311,7 +311,7 @@ function Loginpage() {
                     className="peer w-full pl-12 pr-4 py-3.5 bg-white border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#8a9f8a]/60 focus:border-[#8a9f8a]/40 transition-all duration-300 placeholder-gray-400 text-gray-800"
                     required
                   />
-                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-gradient-to-r from-[#a0b0a0] to-[#c0d0c0] scale-x-0 origin-left transition-transform duration-300 peer-focus:scale-x-100 rounded-full" />
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-linear-to-r from-[#a0b0a0] to-[#c0d0c0] scale-x-0 origin-left transition-transform duration-300 peer-focus:scale-x-100 rounded-full" />
                 </div>
               </div>
 
@@ -348,7 +348,7 @@ function Loginpage() {
                   >
                     {showPassword ? <FiEyeOff /> : <FiEye />}
                   </button>
-                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-gradient-to-r from-[#a0b0a0] to-[#c0d0c0] scale-x-0 origin-left transition-transform duration-300 peer-focus:scale-x-100 rounded-full" />
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-linear-to-r from-[#a0b0a0] to-[#c0d0c0] scale-x-0 origin-left transition-transform duration-300 peer-focus:scale-x-100 rounded-full" />
                 </div>
               </div>
 

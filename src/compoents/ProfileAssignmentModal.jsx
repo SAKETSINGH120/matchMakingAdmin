@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import {
   getAvailableProfiles,
   removeAssignedProfileFromUser,
-} from "../../src1/Services/userServices";
-import { clearFeed } from "../../src/Services/FeedApi";
-const { getUserById } = import("../Services/userServices");
+  getUserById,
+} from "../Services/userServices";
+import { clearFeed } from "../Services/FeedApi";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
